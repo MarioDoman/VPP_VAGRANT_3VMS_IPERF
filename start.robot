@@ -5,16 +5,17 @@ Library    String
 
 
 *** Test Cases *** 
-Start 3 Vagrant VMs and check reply from from
-    ${result} =  Run Process    vagrant    up  shell=True  stdout=vm_start_log.txt
-    Should Contain  ${result.stdout}    csp2s22c03: Running Iperf Server as a daemon
+Start Vagrant VMS csp2s22c03
+    ${result} =  Run Process    vagrant    up    csp2s22c03  shell=True  stdout=vm_start_log_csp2s22c03.txt
+    Should Contain  ${result.stdout}    Setting up vpp-plugin-core
 
 
-Execute IPERF test on VM net2s22c05
-    ${result} =  Run Process    vagrant ssh net2s22c05 -c 'iperf -c 10.10.1.2'  shell=True  stdout=iperf.txt
-    Should Contain  ${result.stdout}    connected with 10.10.1.2
+Start Vagrant VMS csp2s22c04
+    ${result} =  Run Process    vagrant    up    csp2s22c04  shell=True  stdout=vm_start_log_csp2s22c04.txt
+    Should Contain  ${result.stdout}    v2.97/trex_client_v2.97.tar.gz
 
 
-Destroy Vagrant VMs and check shutdown message
-    ${result} =  Run Process    vagrant destroy -f  shell=True  stdout=vm_shutdown_log.txt
-    Should Contain  ${result.stdout}    Destroying VM and associated drives...
+
+Stop Vagrant VM and check shutdown message
+    ${result} =  Run Process    vagrant    halt  shell=True  stdout=vm_shutdown_log.txt
+    Should Contain  ${result.stdout}    Attempting graceful shutdown of VM
